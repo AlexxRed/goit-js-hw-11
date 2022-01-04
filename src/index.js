@@ -1,7 +1,7 @@
 // import './sass/main.scss';
 // ================== make imports ==================
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
+import debounce from 'lodash.debounce';
 
 
 // ================== Notiflix  init ==================
@@ -41,3 +41,31 @@ const refs = {
 console.log(refs.form);
 console.log(refs.inputSearch);
 console.log(refs.searchButton);
+
+// ================== add listener  ==================
+refs.form.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
+refs.searchButton.addEventListener('click', onButton);
+
+
+// ================== input change  ==================
+function onInput(e) {
+    e.preventDefault();
+    const inputValue = e.target.value.trim()
+    console.log(inputValue);
+    if (inputValue === '') {
+        // countryListRef.innerHTML = ''
+        // countryInfoRef.innerHTML = ''
+        Notify.info('Start typing the country name');
+        console.log('Start typing the country name');
+        return
+    } else {
+        // countryListRef.innerHTML = ''
+        // countryInfoRef.innerHTML = ''
+        // fetchCountries(inputValue);
+    }
+
+}
+
+function onButton(e) {
+    e.preventDefault();
+}
