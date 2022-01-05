@@ -62,4 +62,4 @@ function htmlMarkupImages(previewImage, imageAlt, imageLikes, imageViews, imageC
 `;
 }
 
-fetchImages('cat')
+// fetchImages('cat')

@@ -43,29 +43,40 @@ console.log(inputSearchRef);
 console.log(searchButtonRef);
 
 // ================== add listener  ==================
-formRef.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
-searchButtonRef.addEventListener('click', onButton);
+// formRef.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
+formRef.addEventListener('submit', onButtonSearch);
+// searchButtonRef.addEventListener('click', onButton);
 
 
 // ================== input change  ==================
-function onInput(e) {
+// function onInput(e) {
+//     const inputValue = e.target.value.trim()
+//     console.log(inputValue);
+//     if (inputValue === '') {
+//         // imagesListRef.innerHTML = ''
+//         // countryInfoRef.innerHTML = ''
+//         // Notify.info('Start typing the country name');
+//         console.log('Start typing the country name');
+//         return
+//     } else {
+//         // imagesListRef.innerHTML = ''
+//         // countryInfoRef.innerHTML = ''
+//         // fetchCountries(inputValue);
+//     }
+// }
+
+function onButtonSearch(e) {
     e.preventDefault();
-    const inputValue = e.target.value.trim()
+    const inputValue = e.currentTarget.elements.searchQuery.value.trim()
     console.log(inputValue);
     if (inputValue === '') {
-        // countryListRef.innerHTML = ''
-        // countryInfoRef.innerHTML = ''
-        // Notify.info('Start typing the country name');
-        console.log('Start typing the country name');
+        imagesListRef.innerHTML = ''
+        Notify.info('Enter what you want to find');
+        console.log('Enter what you want to find');
         return
     } else {
-        // countryListRef.innerHTML = ''
-        // countryInfoRef.innerHTML = ''
-        // fetchCountries(inputValue);
+        imagesListRef.innerHTML = ''
+        fetchImages(inputValue)
     }
-
-}
-
-function onButton(e) {
-    e.preventDefault();
+    
 }
