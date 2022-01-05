@@ -63,6 +63,7 @@ formRef.addEventListener('submit', onButtonSearch);
 //         // countryInfoRef.innerHTML = ''
 //         // fetchCountries(inputValue);
 //     }
+
 // }
 
 function onButtonSearch(e) {
@@ -72,7 +73,7 @@ function onButtonSearch(e) {
     if (inputValue === '') {
         imagesListRef.innerHTML = ''
         Notify.info('Enter what you want to find');
-        console.log('Enter what you want to find');
+        console.log('Start typing the country name');
         return
     } else {
         imagesListRef.innerHTML = ''

@@ -11,8 +11,8 @@ body {
   color: #212121;
   line-height: 1.5;
   background-color: gray;
-  /* background-image: linear-gradient(rgba(220, 230, 226, 0.829), rgba(126, 129, 160, 0.4)),
-    url('../img/earth-g04fd4a7c8_1920.jpg'); */
+  background-image: linear-gradient(rgba(220, 230, 226, 0.829), rgba(126, 129, 160, 0.4)),
+    url('../images/question-mark-1872665_1920.jpg');
   background-repeat: no-repeat;
   /* background-position: 50% 50%; */
   background-size: cover;

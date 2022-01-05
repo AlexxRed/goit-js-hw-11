@@ -1,7 +1,9 @@
 import { formRef } from './refs.js';
 import { inputSearchRef } from './refs.js';
 import { searchButtonRef } from './refs.js';
-import { imagesListRef }  from './refs.js';
+import { imagesListRef } from './refs.js';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
 
 export function fetchImages(searchQuery) {
     const API_KEY = '5132282-75e364beaf68381714aa1df4d';
@@ -13,6 +15,11 @@ export function fetchImages(searchQuery) {
         }).
         then(images => {
             console.log(images);
+            const totalHits = Number(images.total)
+            if (totalHits === 0) {
+                Notify.failure("Oops, we did not find these photos.");
+            } else {
+                Notify.info(`Hooray! We found ${totalHits} images.`);
             images.hits.map((image => {
             const previewImage = image.webformatURL 
             const bigImage = image.largeImageURL 
@@ -29,10 +36,10 @@ export function fetchImages(searchQuery) {
                 console.log(imageViews);
                 console.log(imageComments);
                 console.log(imagedoenloads);
-                imagesListRef.innerHTML += htmlMarkupImages(previewImage, imageAlt, imageLikes, imageViews, imageComments, imagedoenloads, bigImage)
+
+            imagesListRef.innerHTML += htmlMarkupImages(previewImage, imageAlt, imageLikes, imageViews, imageComments, imagedoenloads, bigImage)
             }))
-        
-            
+            }
         })
         .catch(error => {
             console.log(error);
