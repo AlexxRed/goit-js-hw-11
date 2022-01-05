@@ -35,7 +35,7 @@ fontSize: '32px',
 // ================== var  ==================
 const DEBOUNCE_DELAY = 300;
 // ================== take ref  =============
-
+searchButtonRef.disabled = true;
 
 
 console.log(formRef);
