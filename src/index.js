@@ -1,8 +1,13 @@
-// import './sass/main.scss';
+
 // ================== make imports ==================
+import { formRef } from './refs.js';
+import { inputSearchRef } from './refs.js';
+import { searchButtonRef } from './refs.js';
+import { imagesListRef }  from './refs.js';
+import {fetchImages} from './fetchImages'
+import './css/styles.css'
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import debounce from 'lodash.debounce';
-
 
 // ================== Notiflix  init ==================
 
@@ -29,22 +34,17 @@ fontSize: '32px',
 
 // ================== var  ==================
 const DEBOUNCE_DELAY = 300;
-
 // ================== take ref  =============
 
-const refs = {
-    form: document.querySelector('#search-form'),
-    inputSearch: document.querySelector('input'),
-    searchButton: document.querySelector('button'),
-};
 
-console.log(refs.form);
-console.log(refs.inputSearch);
-console.log(refs.searchButton);
+
+console.log(formRef);
+console.log(inputSearchRef);
+console.log(searchButtonRef);
 
 // ================== add listener  ==================
-refs.form.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
-refs.searchButton.addEventListener('click', onButton);
+formRef.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
+searchButtonRef.addEventListener('click', onButton);
 
 
 // ================== input change  ==================
@@ -55,7 +55,7 @@ function onInput(e) {
     if (inputValue === '') {
         // countryListRef.innerHTML = ''
         // countryInfoRef.innerHTML = ''
-        Notify.info('Start typing the country name');
+        // Notify.info('Start typing the country name');
         console.log('Start typing the country name');
         return
     } else {
