@@ -99,19 +99,9 @@ function onButtonSearch(e) {
     
 };
 
-
-function onClickLoadMoreButton(e) {
-    console.log(inputValue);
-    console.log(currentPage);
-    gallery.refresh()
-    loadMoreButtonRef.classList.add("is-hidden")
-    currentPage += 1;
-    fetchImages(inputValue, currentPage);
-    loadMoreButtonRef.classList.remove("is-hidden");
-}
-
 function onImageClick(e) {
     e.preventDefault();
+
     gallery = new SimpleLightbox('.gallery__item', {
         captions: true,
         captionSelector: 'img',
@@ -121,4 +111,19 @@ function onImageClick(e) {
         captionDelay: 250,
     });
 };
+
+function onClickLoadMoreButton(e) {
+    console.log(inputValue);
+    console.log(currentPage);
+    console.log(gallery);
+    if (gallery) {
+        gallery.refresh()
+    }
+    loadMoreButtonRef.classList.add("is-hidden")
+    currentPage += 1;
+    fetchImages(inputValue, currentPage);
+    loadMoreButtonRef.classList.remove("is-hidden");
+}
+
+
 
