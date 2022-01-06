@@ -3,8 +3,11 @@
 import { formRef } from './refs.js';
 import { inputSearchRef } from './refs.js';
 import { searchButtonRef } from './refs.js';
-import { imagesListRef }  from './refs.js';
-import {fetchImages} from './fetchImages'
+import { imagesListRef } from './refs.js';
+import { loadMoreButtonRef } from './refs.js';
+import { fetchImages } from './fetchImages';
+import SimpleLightbox from "simplelightbox";
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import './css/styles.css'
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import debounce from 'lodash.debounce';
@@ -19,7 +22,7 @@ distance: '10px',
 opacity: 5,
 borderRadius: '5px',
 rtl: false,
-timeout: 2000,
+timeout: 500,
 messageMaxLength: 110,
 backOverlay: false,
 backOverlayColor: 'rgba(0,0,0,0.9)',
@@ -34,6 +37,8 @@ fontSize: '32px',
 
 // ================== var  ==================
 const DEBOUNCE_DELAY = 300;
+export let maxPage = 1;
+export let currentPage = 0;
 // ================== take ref  =============
 searchButtonRef.disabled = true;
 
@@ -43,41 +48,53 @@ console.log(inputSearchRef);
 console.log(searchButtonRef);
 
 // ================== add listener  ==================
-// formRef.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
+formRef.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 formRef.addEventListener('submit', onButtonSearch);
+loadMoreButtonRef.addEventListener('click', onClickLoadMoreButton);
+
 // searchButtonRef.addEventListener('click', onButton);
 
 
 // ================== input change  ==================
-// function onInput(e) {
-//     const inputValue = e.target.value.trim()
-//     console.log(inputValue);
-//     if (inputValue === '') {
-//         // imagesListRef.innerHTML = ''
-//         // countryInfoRef.innerHTML = ''
-//         // Notify.info('Start typing the country name');
-//         console.log('Start typing the country name');
-//         return
-//     } else {
-//         // imagesListRef.innerHTML = ''
-//         // countryInfoRef.innerHTML = ''
-//         // fetchCountries(inputValue);
-//     }
-
-// }
+function onInput(e) {
+    const inputValue = e.target.value.trim();
+    console.log(inputValue);
+    if (inputValue === '') {
+        searchButtonRef.disabled = true;
+        Notify.info('Enter what you want to find');
+        console.log('Enter what you want to find');
+        return
+    } else {
+        searchButtonRef.disabled = false;
+    }
+};
 
 function onButtonSearch(e) {
     e.preventDefault();
     const inputValue = e.currentTarget.elements.searchQuery.value.trim()
     console.log(inputValue);
     if (inputValue === '') {
-        imagesListRef.innerHTML = ''
-        Notify.info('Enter what you want to find');
-        console.log('Start typing the country name');
+        imagesListRef.innerHTML = '';
+        loadMoreButtonRef.classList.add("is-hidden");
         return
     } else {
         imagesListRef.innerHTML = ''
-        fetchImages(inputValue)
-    }
+        currentPage += 1;
+        fetchImages(inputValue, currentPage);
+        console.log(currentPage);
+        if (currentPage !== 0) {
+            loadMoreButtonRef.classList.remove("is-hidden");
+        };
+    };
     
+};
+
+
+function onClickLoadMoreButton(inputValue, currentPage) {
+    fetchImages(inputValue, currentPage);
 }
+// if (currentPage === 0) {
+//     loadMoreButton.classList.add('visible');
+// } else {
+//     loadMoreButton.classList.remove('visible');
+// };

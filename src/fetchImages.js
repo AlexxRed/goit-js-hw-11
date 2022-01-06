@@ -2,20 +2,23 @@ import { formRef } from './refs.js';
 import { inputSearchRef } from './refs.js';
 import { searchButtonRef } from './refs.js';
 import { imagesListRef } from './refs.js';
+import { loadMoreButtonRef } from './refs.js';
+// import { maxPage } from './index.js';
+// import { currentPage } from './index.js'
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 
-export function fetchImages(searchQuery) {
+export function fetchImages(searchQuery, currentPage) {
     const API_KEY = '5132282-75e364beaf68381714aa1df4d';
     const searchUrl = 'https://pixabay.com/api/';
-    const options = 'image_type=photo&orientation=horizontal&safesearch=true&page=1&per_page=40'
+    const options = `image_type=photo&orientation=horizontal&safesearch=true&page=${currentPage}&per_page=40`
     fetch(`${searchUrl}?key=${API_KEY}&q=${searchQuery}&${options}`)
         .then(response => {
             return response.json()
         }).
         then(images => {
             console.log(images);
-            const totalHits = Number(images.total)
+            const totalHits = Number(images.totalHits)
             if (totalHits === 0) {
                 Notify.failure("Oops, we did not find these photos.");
             } else {
@@ -37,7 +40,8 @@ export function fetchImages(searchQuery) {
                 console.log(imageComments);
                 console.log(imagedoenloads);
 
-            imagesListRef.innerHTML += htmlMarkupImages(previewImage, imageAlt, imageLikes, imageViews, imageComments, imagedoenloads, bigImage)
+            imagesListRef.insertAdjacentHTML('beforeend', htmlMarkupImages(previewImage, imageAlt, imageLikes, imageViews, imageComments, imagedoenloads, bigImage));
+            // imagesListRef.innerHTML += htmlMarkupImages(previewImage, imageAlt, imageLikes, imageViews, imageComments, imagedoenloads, bigImage)
             }))
             }
         })
@@ -50,19 +54,19 @@ export function fetchImages(searchQuery) {
 function htmlMarkupImages(previewImage, imageAlt, imageLikes, imageViews, imageComments, imagedoenloads, bigImage) {
     return `
     <div class="photo-card">
-    <img src="${previewImage}" alt="${imageAlt}" loading="lazy" />
+    <img class="gallery__images" src="${previewImage}" alt="${imageAlt}" loading="lazy" />
     <div class="info">
     <p class="info-item">
-    <b>Likes${imageLikes}</b>
+    <b>Likes<span class="info-text">${imageLikes}</span></b>
     </p>
     <p class="info-item">
-    <b>Views${imageViews}</b>
+    <b>Views<span class="info-text">${imageViews}</span></b>
     </p>
     <p class="info-item">
-    <b>Comments${imageComments}</b>
+    <b>Comments<span class="info-text">${imageComments}</span></b>
     </p>
     <p class="info-item">
-    <b>Downloads${imagedoenloads}</b>
+    <b>Downloads<span class="info-text">${imagedoenloads}</span></b>
     </p>
     </div>
 </div>
