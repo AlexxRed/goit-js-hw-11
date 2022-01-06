@@ -10,7 +10,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-galleryRef.addEventListener('click', onImageClick)
+// galleryRef.addEventListener('click', onImageClick)
 
 let maxPage = 1;
 
@@ -92,16 +92,3 @@ function htmlMarkupImages(previewImage, imageAlt, imageLikes, imageViews, imageC
 `
 };
 
-function onImageClick(e) {
-    e.preventDefault();
-    if (e.target.className !== 'gallery__image') { return };
-    
-    new SimpleLightbox('.gallery__item', {
-        captions: true,
-        captionSelector: 'img',
-        captionType: 'attr',
-        captionsData: 'alt',
-        captionPosition: 'bottom',
-        captionDelay: 250,
-    });
-};

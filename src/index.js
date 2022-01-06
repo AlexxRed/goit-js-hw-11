@@ -53,7 +53,7 @@ console.log(searchButtonRef);
 formRef.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 formRef.addEventListener('submit', onButtonSearch);
 loadMoreButtonRef.addEventListener('click', onClickLoadMoreButton);
-// galleryRef.addEventListener('click', onImageClick)
+galleryRef.addEventListener('click', onImageClick)
 
 // searchButtonRef.addEventListener('click', onButton);
 
@@ -108,17 +108,16 @@ function onClickLoadMoreButton(e) {
     loadMoreButtonRef.classList.remove("is-hidden");
 }
 
-// function onImageClick(e) {
-//     e.preventDefault();
-//     if (e.target.className !== 'gallery__image') { return };
+function onImageClick(e) {
+    e.preventDefault();
     
-//     new SimpleLightbox('.gallery__item', {
-//         captions: true,
-//         captionSelector: 'img',
-//         captionType: 'attr',
-//         captionsData: 'alt',
-//         captionPosition: 'bottom',
-//         captionDelay: 250,
-//     });
-// };
+    new SimpleLightbox('.gallery__item', {
+        captions: true,
+        captionSelector: 'img',
+        captionType: 'attr',
+        captionsData: 'alt',
+        captionPosition: 'bottom',
+        captionDelay: 250,
+    });
+};
 
