@@ -41,6 +41,7 @@ const DEBOUNCE_DELAY = 100;
 let inputValue = '';
 export let maxPage = 1;
 export let currentPage = 1;
+let gallery;
 // ================== take ref  =============
 searchButtonRef.disabled = true;
 
@@ -102,6 +103,7 @@ function onButtonSearch(e) {
 function onClickLoadMoreButton(e) {
     console.log(inputValue);
     console.log(currentPage);
+    gallery.refresh()
     loadMoreButtonRef.classList.add("is-hidden")
     currentPage += 1;
     fetchImages(inputValue, currentPage);
@@ -110,8 +112,7 @@ function onClickLoadMoreButton(e) {
 
 function onImageClick(e) {
     e.preventDefault();
-    
-    new SimpleLightbox('.gallery__item', {
+    gallery = new SimpleLightbox('.gallery__item', {
         captions: true,
         captionSelector: 'img',
         captionType: 'attr',
