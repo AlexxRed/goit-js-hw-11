@@ -3,9 +3,14 @@ import { inputSearchRef } from './refs.js';
 import { searchButtonRef } from './refs.js';
 import { imagesListRef } from './refs.js';
 import { loadMoreButtonRef } from './refs.js';
+import { galleryRef } from './refs.js';
 // import { maxPage } from './index.js';
 // import { currentPage } from './index.js'
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
+galleryRef.addEventListener('click', onImageClick)
 
 let maxPage = 1;
 
@@ -24,11 +29,12 @@ export function fetchImages(searchQuery, currentPage) {
             console.log(maxPage);
             if (maxPage === currentPage) {
                 loadMoreButtonRef.classList.add("is-hidden")
-                Notify.failure("We're sorry, but you've reached the end of search results.");
+                Notify.warning("We're sorry, but you've reached the end of search results.");
             } else {
                 loadMoreButtonRef.classList.remove("is-hidden");
             }
             if (totalHits === 0) {
+                loadMoreButtonRef.classList.add("is-hidden")
                 Notify.failure("Sorry, there are no images matching your search query. Please try again.");
             } else {
                 if (currentPage === 1) {
@@ -65,6 +71,7 @@ export function fetchImages(searchQuery, currentPage) {
 function htmlMarkupImages(previewImage, imageAlt, imageLikes, imageViews, imageComments, imagedoenloads, bigImage) {
     return `
     <div class="photo-card">
+    <a class="gallery__item" href="${bigImage}">
     <img class="gallery__images" src="${previewImage}" alt="${imageAlt}" loading="lazy" />
     <div class="info">
     <p class="info-item">
@@ -80,7 +87,21 @@ function htmlMarkupImages(previewImage, imageAlt, imageLikes, imageViews, imageC
     <b>Downloads<span class="info-text">${imagedoenloads}</span></b>
     </p>
     </div>
-</div>
-`;
-}
+    </a>
+    </div>
+`
+};
 
+function onImageClick(e) {
+    e.preventDefault();
+    if (e.target.className !== 'gallery__image') { return };
+    
+    new SimpleLightbox('.gallery__item', {
+        captions: true,
+        captionSelector: 'img',
+        captionType: 'attr',
+        captionsData: 'alt',
+        captionPosition: 'bottom',
+        captionDelay: 250,
+    });
+};
