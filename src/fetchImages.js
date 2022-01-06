@@ -7,6 +7,7 @@ import { loadMoreButtonRef } from './refs.js';
 // import { currentPage } from './index.js'
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
+let maxPage = 1;
 
 export function fetchImages(searchQuery, currentPage) {
     const API_KEY = '5132282-75e364beaf68381714aa1df4d';
@@ -19,10 +20,20 @@ export function fetchImages(searchQuery, currentPage) {
         then(images => {
             console.log(images);
             const totalHits = Number(images.totalHits)
-            if (totalHits === 0) {
-                Notify.failure("Oops, we did not find these photos.");
+            maxPage = Math.ceil(totalHits / 40)
+            console.log(maxPage);
+            if (maxPage === currentPage) {
+                loadMoreButtonRef.classList.add("is-hidden")
+                Notify.failure("We're sorry, but you've reached the end of search results.");
             } else {
-                Notify.info(`Hooray! We found ${totalHits} images.`);
+                loadMoreButtonRef.classList.remove("is-hidden");
+            }
+            if (totalHits === 0) {
+                Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+            } else {
+                if (currentPage === 1) {
+                    Notify.success(`Hooray! We found ${totalHits} images.`);
+                }
             images.hits.map((image => {
             const previewImage = image.webformatURL 
             const bigImage = image.largeImageURL 
@@ -30,7 +41,7 @@ export function fetchImages(searchQuery, currentPage) {
             const imageLikes = image.likes 
             const imageViews = image.views 
             const imageComments = image.comments 
-            const imagedoenloads = image.downloads 
+                const imagedoenloads = image.downloads 
                 
                 console.log(previewImage);
                 console.log(bigImage);
@@ -73,4 +84,3 @@ function htmlMarkupImages(previewImage, imageAlt, imageLikes, imageViews, imageC
 `;
 }
 
-// fetchImages('cat')

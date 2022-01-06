@@ -22,7 +22,7 @@ distance: '10px',
 opacity: 5,
 borderRadius: '5px',
 rtl: false,
-timeout: 500,
+timeout: 1000,
 messageMaxLength: 110,
 backOverlay: false,
 backOverlayColor: 'rgba(0,0,0,0.9)',
@@ -36,9 +36,10 @@ fontSize: '32px',
 });
 
 // ================== var  ==================
-const DEBOUNCE_DELAY = 300;
+const DEBOUNCE_DELAY = 100;
+let inputValue = '';
 export let maxPage = 1;
-export let currentPage = 0;
+export let currentPage = 1;
 // ================== take ref  =============
 searchButtonRef.disabled = true;
 
@@ -57,10 +58,12 @@ loadMoreButtonRef.addEventListener('click', onClickLoadMoreButton);
 
 // ================== input change  ==================
 function onInput(e) {
-    const inputValue = e.target.value.trim();
+    console.log(inputValue);
+    inputValue = e.target.value.trim();
     console.log(inputValue);
     if (inputValue === '') {
         searchButtonRef.disabled = true;
+        loadMoreButtonRef.classList.add("is-hidden");
         Notify.info('Enter what you want to find');
         console.log('Enter what you want to find');
         return
@@ -71,30 +74,35 @@ function onInput(e) {
 
 function onButtonSearch(e) {
     e.preventDefault();
-    const inputValue = e.currentTarget.elements.searchQuery.value.trim()
+    inputValue = e.currentTarget.elements.searchQuery.value.trim()
     console.log(inputValue);
     if (inputValue === '') {
         imagesListRef.innerHTML = '';
         loadMoreButtonRef.classList.add("is-hidden");
         return
     } else {
-        imagesListRef.innerHTML = ''
-        currentPage += 1;
+        imagesListRef.innerHTML = '';
+        currentPage = 1;
         fetchImages(inputValue, currentPage);
+        // currentPage += 1;
+        // onClickLoadMoreButton(inputValue, currentPage)
         console.log(currentPage);
         if (currentPage !== 0) {
-            loadMoreButtonRef.classList.remove("is-hidden");
+            // loadMoreButtonRef.classList.remove("is-hidden");
+            searchButtonRef.disabled = true;
+            // e.currentTarget.reset();
         };
     };
     
 };
 
 
-function onClickLoadMoreButton(inputValue, currentPage) {
+function onClickLoadMoreButton(e) {
+    console.log(inputValue);
+    console.log(currentPage);
+    loadMoreButtonRef.classList.add("is-hidden")
+    currentPage += 1;
     fetchImages(inputValue, currentPage);
+    loadMoreButtonRef.classList.remove("is-hidden");
 }
-// if (currentPage === 0) {
-//     loadMoreButton.classList.add('visible');
-// } else {
-//     loadMoreButton.classList.remove('visible');
-// };
+
