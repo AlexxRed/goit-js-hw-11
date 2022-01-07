@@ -12,6 +12,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import './css/styles.css'
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import debounce from 'lodash.debounce';
+const axios = require('axios').default;
 
 // ================== Notiflix  init ==================
 
@@ -42,13 +43,9 @@ let inputValue = '';
 export let maxPage = 1;
 export let currentPage = 1;
 let gallery;
-// ================== take ref  =============
+// ================== basic style  =============
 searchButtonRef.disabled = true;
 
-
-console.log(formRef);
-console.log(inputSearchRef);
-console.log(searchButtonRef);
 
 // ================== add listener  ==================
 formRef.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
@@ -56,29 +53,22 @@ formRef.addEventListener('submit', onButtonSearch);
 loadMoreButtonRef.addEventListener('click', onClickLoadMoreButton);
 galleryRef.addEventListener('click', onImageClick)
 
-// searchButtonRef.addEventListener('click', onButton);
-
-
 // ================== input change  ==================
 function onInput(e) {
-    console.log(inputValue);
     inputValue = e.target.value.trim();
-    console.log(inputValue);
     if (inputValue === '') {
         searchButtonRef.disabled = true;
         loadMoreButtonRef.classList.add("is-hidden");
         Notify.info('Enter what you want to find');
-        console.log('Enter what you want to find');
         return
     } else {
         searchButtonRef.disabled = false;
     }
 };
-
+// ================ start search images  ==================
 function onButtonSearch(e) {
     e.preventDefault();
     inputValue = e.currentTarget.elements.searchQuery.value.trim()
-    console.log(inputValue);
     if (inputValue === '') {
         imagesListRef.innerHTML = '';
         loadMoreButtonRef.classList.add("is-hidden");
@@ -87,18 +77,13 @@ function onButtonSearch(e) {
         imagesListRef.innerHTML = '';
         currentPage = 1;
         fetchImages(inputValue, currentPage);
-        // currentPage += 1;
-        // onClickLoadMoreButton(inputValue, currentPage)
         console.log(currentPage);
         if (currentPage !== 0) {
-            // loadMoreButtonRef.classList.remove("is-hidden");
             searchButtonRef.disabled = true;
-            // e.currentTarget.reset();
         };
     };
-    
 };
-
+// ================== make gallery view  ==================
 function onImageClick(e) {
     e.preventDefault();
 
@@ -111,11 +96,8 @@ function onImageClick(e) {
         captionDelay: 250,
     });
 };
-
+// ================== load more images ==================
 function onClickLoadMoreButton(e) {
-    console.log(inputValue);
-    console.log(currentPage);
-    console.log(gallery);
     if (gallery) {
         gallery.refresh()
     }
