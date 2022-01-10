@@ -76,7 +76,6 @@ function onButtonSearch(e) {
         imagesListRef.innerHTML = '';
         currentPage = 1;
         fetchImages(inputValue, currentPage);
-        console.log(currentPage);
         if (currentPage !== 0) {
             searchButtonRef.disabled = true;
         };
