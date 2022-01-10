@@ -45,19 +45,19 @@ let gallery;
 // ================== basic style  =============
 searchButtonRef.disabled = true;
 
-
 // ================== add listeners  ==================
 formRef.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 formRef.addEventListener('submit', onButtonSearch);
-loadMoreButtonRef.addEventListener('click', onClickLoadMoreButton);
+// loadMoreButtonRef.addEventListener('click', onClickLoadMoreButton);
 galleryRef.addEventListener('click', onImageClick);
+window.addEventListener('scroll', loadMore);
 
 // ================== input change  ==================
 function onInput(e) {
     inputValue = e.target.value.trim();
     if (inputValue === '') {
         searchButtonRef.disabled = true;
-        loadMoreButtonRef.classList.add("is-hidden");
+        // loadMoreButtonRef.classList.add("is-hidden");
         Notify.info('Enter what you want to find');
         return;
     } else {
@@ -70,7 +70,7 @@ function onButtonSearch(e) {
     inputValue = e.currentTarget.elements.searchQuery.value.trim()
     if (inputValue === '') {
         imagesListRef.innerHTML = '';
-        loadMoreButtonRef.classList.add("is-hidden");
+        // loadMoreButtonRef.classList.add("is-hidden");
         return;
     } else {
         imagesListRef.innerHTML = '';
@@ -95,15 +95,39 @@ function onImageClick(e) {
     });
 };
 // ================== load more images ==================
-function onClickLoadMoreButton(e) {
+// function onClickLoadMoreButton(e) {
+//     if (gallery) {
+//         gallery.refresh()
+//     };
+//     loadMoreButtonRef.classList.add("is-hidden");
+//     currentPage += 1;
+//     fetchImages(inputValue, currentPage);
+//     loadMoreButtonRef.classList.remove("is-hidden");
+// };
+
+// ================== create infinite scroll ==================
+function loadMore(e) {
+    // console.log(e);
     if (gallery) {
         gallery.refresh()
     };
-    loadMoreButtonRef.classList.add("is-hidden");
-    currentPage += 1;
-    fetchImages(inputValue, currentPage);
-    loadMoreButtonRef.classList.remove("is-hidden");
+    if (
+    window.scrollY + window.innerHeight >=
+    document.documentElement.scrollHeight
+    ) {
+        fetchImages(inputValue, currentPage);
+        currentPage += 1;
+    }
 };
 
+// ================== ???how to create smooth???? ==================
+// const { height: cardHeight } = document
+    // .querySelector('.gallery')
+    // .firstElementChild.getBoundingClientRect();
+
+    // window.scrollBy({
+    //     top: cardHeight * 2,
+    //     behavior: 'smooth',
+    // });
 
 

@@ -22,7 +22,7 @@ export async function fetchImages(searchQuery, currentPage) {
                     loadMoreButtonRef.classList.add("is-hidden");
                 Notify.warning("We're sorry, but you've reached the end of search results.");
             } else {
-                loadMoreButtonRef.classList.remove("is-hidden");
+                // loadMoreButtonRef.classList.remove("is-hidden");
             }
             if (totalHits === 0) {
                 loadMoreButtonRef.classList.add("is-hidden");
