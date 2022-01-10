@@ -9,6 +9,7 @@ const axios = require('axios').default;
 let maxPage = 1;
 
 //====== fetch images with Axios (async/await) ======
+
 export async function fetchImages(searchQuery, currentPage) {
     const API_KEY = '5132282-75e364beaf68381714aa1df4d';
     const searchUrl = 'https://pixabay.com/api/';
