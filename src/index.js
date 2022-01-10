@@ -16,14 +16,14 @@ import debounce from 'lodash.debounce';
 // ================== Notiflix  init ==================
 
 Notify.init({
-width: '700px',
+width: '600px',
 position: 'right-top',
 closeButton: false,
 distance: '10px',
 opacity: 5,
 borderRadius: '5px',
 rtl: false,
-timeout: 1000,
+timeout: 2000,
 messageMaxLength: 110,
 backOverlay: false,
 backOverlayColor: 'rgba(0,0,0,0.9)',
@@ -46,11 +46,11 @@ let gallery;
 searchButtonRef.disabled = true;
 
 
-// ================== add listener  ==================
+// ================== add listeners  ==================
 formRef.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 formRef.addEventListener('submit', onButtonSearch);
 loadMoreButtonRef.addEventListener('click', onClickLoadMoreButton);
-galleryRef.addEventListener('click', onImageClick)
+galleryRef.addEventListener('click', onImageClick);
 
 // ================== input change  ==================
 function onInput(e) {
@@ -59,10 +59,10 @@ function onInput(e) {
         searchButtonRef.disabled = true;
         loadMoreButtonRef.classList.add("is-hidden");
         Notify.info('Enter what you want to find');
-        return
+        return;
     } else {
         searchButtonRef.disabled = false;
-    }
+    };
 };
 // ================ start search images  ==================
 function onButtonSearch(e) {
@@ -71,7 +71,7 @@ function onButtonSearch(e) {
     if (inputValue === '') {
         imagesListRef.innerHTML = '';
         loadMoreButtonRef.classList.add("is-hidden");
-        return
+        return;
     } else {
         imagesListRef.innerHTML = '';
         currentPage = 1;
@@ -98,12 +98,12 @@ function onImageClick(e) {
 function onClickLoadMoreButton(e) {
     if (gallery) {
         gallery.refresh()
-    }
-    loadMoreButtonRef.classList.add("is-hidden")
+    };
+    loadMoreButtonRef.classList.add("is-hidden");
     currentPage += 1;
     fetchImages(inputValue, currentPage);
     loadMoreButtonRef.classList.remove("is-hidden");
-}
+};
 
 
 

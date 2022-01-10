@@ -13,19 +13,19 @@ let maxPage = 1;
 export async function fetchImages(searchQuery, currentPage) {
     const API_KEY = '5132282-75e364beaf68381714aa1df4d';
     const searchUrl = 'https://pixabay.com/api/';
-    const options = `image_type=photo&orientation=horizontal&safesearch=true&page=${currentPage}&per_page=40`
+    const options = `image_type=photo&orientation=horizontal&safesearch=true&page=${currentPage}&per_page=40`;
     try {
-        const response = await axios.get(`${searchUrl}?key=${API_KEY}&q=${searchQuery}&${options}`)
-        const totalHits = Number(response.data.totalHits)
-            maxPage = Math.ceil(totalHits / 40)
+        const response = await axios.get(`${searchUrl}?key=${API_KEY}&q=${searchQuery}&${options}`);
+        const totalHits = Number(response.data.totalHits);
+        maxPage = Math.ceil(totalHits / 40);
                 if (maxPage === currentPage) {
-                loadMoreButtonRef.classList.add("is-hidden")
+                    loadMoreButtonRef.classList.add("is-hidden");
                 Notify.warning("We're sorry, but you've reached the end of search results.");
             } else {
                 loadMoreButtonRef.classList.remove("is-hidden");
             }
             if (totalHits === 0) {
-                loadMoreButtonRef.classList.add("is-hidden")
+                loadMoreButtonRef.classList.add("is-hidden");
                 Notify.failure("Sorry, there are no images matching your search query. Please try again.");
             } else {
                 if (currentPage === 1) {
@@ -34,15 +34,15 @@ export async function fetchImages(searchQuery, currentPage) {
                 response.data.hits.map((image => {
                     const { webformatURL, largeImageURL, tags, likes, views, comments, downloads }
                         = image;
-            imagesListRef.insertAdjacentHTML('beforeend',
-            htmlMarkupImages(webformatURL, tags, likes, views, comments, downloads, largeImageURL));
-            }))
-            }
-        }
+                    imagesListRef.insertAdjacentHTML('beforeend',
+                        htmlMarkupImages(webformatURL, tags, likes, views, comments, downloads, largeImageURL));
+                }));
+        };
+    }
     catch (error) {
         console.log(error);
         Notify.failure("Sorry, something went wrong. Try again");
-    }
+    };
 
 
 
