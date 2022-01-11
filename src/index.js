@@ -6,7 +6,8 @@ import { searchButtonRef } from './refs.js';
 import { imagesListRef } from './refs.js';
 import { loadMoreButtonRef } from './refs.js';
 import { galleryRef } from './refs.js';
-import { fetchImages } from './fetchImages';
+import { fetchImages } from './fetchImages.js';
+import { smoothScroll } from './smoothScroll.js';
 import SimpleLightbox from "simplelightbox";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import './css/styles.css'

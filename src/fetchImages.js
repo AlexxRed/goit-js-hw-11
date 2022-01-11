@@ -2,6 +2,7 @@
 import { imagesListRef } from './refs.js';
 import { loadMoreButtonRef } from './refs.js';
 import { htmlMarkupImages } from './htmlMarkupImages.js';
+import { smoothScroll } from './smoothScroll.js';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 const axios = require('axios').default;
 
@@ -17,6 +18,9 @@ export async function fetchImages(searchQuery, currentPage) {
     try {
         const response = await axios.get(`${searchUrl}?key=${API_KEY}&q=${searchQuery}&${options}`);
         const totalHits = Number(response.data.totalHits);
+        if (currentPage !== 1) {
+            smoothScroll()
+        }
         maxPage = Math.ceil(totalHits / 40);
                 if (maxPage === currentPage) {
                     loadMoreButtonRef.classList.add("is-hidden");
